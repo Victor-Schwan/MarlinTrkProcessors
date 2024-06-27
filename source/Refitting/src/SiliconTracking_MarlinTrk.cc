@@ -3411,39 +3411,46 @@ void SiliconTracking_MarlinTrk::setupGeom( const dd4hep::Detector& theDetector){
   theDetector.field().magneticField({0,0,0},bFieldVec); // get the magnetic field vector from DD4hep
   _bField = bFieldVec[2]/dd4hep::tesla; // z component at (0,0,0)
   
-  //-- VXD Parameters--
+  //-- VertexBarrel Parameters--
   _nLayersVTX = 0 ;
+
+
+  auto detMap = theDetector.detectors();
+  streamlog_out( ERROR ) << "Name of detectors:" << '\n';
+  for (const auto& [name, _] : detMap) {
+    streamlog_out( ERROR ) << name << '\n';
+  }
   
   try{
     
-    streamlog_out( DEBUG9 ) << " filling VXD parameters  " << std::endl ;
+    streamlog_out( DEBUG9 ) << " filling VertexBarrel parameters  " << std::endl ;
     
-    dd4hep::DetElement vtxDE = theDetector.detector("VXD");
+    dd4hep::DetElement vtxDE = theDetector.detector("VertexBarrel");
     dd4hep::rec::ZPlanarData* vtx = vtxDE.extension<dd4hep::rec::ZPlanarData>();
     _nLayersVTX=vtx->layers.size(); 
     
   }
   catch( std::runtime_error& e){
     
-    streamlog_out( DEBUG9 ) << " ### VXD detector Not Present in Compact File" << std::endl ;
+    streamlog_out( DEBUG9 ) << " ### VertexBarrel detector Not Present in Compact File" << std::endl ;
   }
   
   
 
-  //-- SIT Parameters--
+  //-- InnerTrackerBarrel Parameters--
   _nLayersSIT = 0 ;
 
   try{
 
-    streamlog_out( DEBUG9 ) << " filling SIT parameters  " << std::endl ;
+    streamlog_out( DEBUG9 ) << " filling InnerTrackerBarrel parameters  " << std::endl ;
 
-    dd4hep::DetElement sitDE = theDetector.detector("SIT");
+    dd4hep::DetElement sitDE = theDetector.detector("InnerTrackerBarrel");
     dd4hep::rec::ZPlanarData* sit = sitDE.extension<dd4hep::rec::ZPlanarData>();
     _nLayersSIT=sit->layers.size(); 
   }
   catch(  std::runtime_error& e){
 
-    streamlog_out( DEBUG9 ) << " ###  SIT detector Not Present in Compact File " << std::endl ;
+    streamlog_out( DEBUG9 ) << " ###  InnerTrackerBarrel detector Not Present in Compact File " << std::endl ;
 
   }
 
