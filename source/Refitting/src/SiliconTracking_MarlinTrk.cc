@@ -3414,13 +3414,6 @@ void SiliconTracking_MarlinTrk::setupGeom( const dd4hep::Detector& theDetector){
   //-- VertexBarrel Parameters--
   _nLayersVTX = 0 ;
 
-
-  auto detMap = theDetector.detectors();
-  streamlog_out( ERROR ) << "Name of detectors:" << '\n';
-  for (const auto& [name, _] : detMap) {
-    streamlog_out( ERROR ) << name << '\n';
-  }
-  
   try{
     
     streamlog_out( DEBUG9 ) << " filling VertexBarrel parameters  " << std::endl ;
