@@ -1,0 +1,35 @@
+{
+    "env": {
+        "myIncludePath": [
+                "/cvmfs/sw-nightlies.hsf.org/key4hep/releases/2024-07-24/x86_64-ubuntu22.04-gcc11.4.0-opt/root/6.32.02-t444zc/**", // Root
+                "/cvmfs/sw-nightlies.hsf.org/key4hep/releases/2024-07-24/x86_64-ubuntu22.04-gcc11.4.0-opt/lcio/34fd6f89c3215e8682e71ab27eae74769a4fb325_develop-k4f4yx/include/**", // LCIO
+                "/cvmfs/sw-nightlies.hsf.org/key4hep/releases/2024-07-24/x86_64-ubuntu22.04-gcc11.4.0-opt/marlin/1e227dfc28e22264c9ab4cbb30e12673132c5026_develop-zhzih3//include/**", // Marlin
+                "/cvmfs/sw-nightlies.hsf.org/key4hep/releases/2024-07-24/x86_64-ubuntu22.04-gcc11.4.0-opt/marlinutil/881c266744d154067e4722d59b7e80d7c790dfb9_develop-jxs5uk/include/**", // MarlinUtil
+                "/cvmfs/sw-nightlies.hsf.org/key4hep/releases/2024-08-13/x86_64-ubuntu22.04-gcc11.4.0-opt/dd4hep/80c3b721fb8d4512600fe466ca52913b7ac79659_develop-5uvfgj/include/", // dd4hep
+                // fix Path "/cvmfs/ilc.desy.de/key4hep/spackages/ilcutil/1.7/x86_64-centos7-gcc11.2.0-opt/nnyawmpqncnl6tu3nfhufy4seyzdlfj2/include/**", // streamlog
+                // fix Path "/cvmfs/ilc.desy.de/key4hep/spackages/nlohmann-json/3.10.5/x86_64-centos7-gcc11.2.0-opt/j4tl2q4blff6srzrgtztrg53witsjlcd/include"
+        ]
+      },
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": ["${myIncludePath}",
+                "${workspaceFolder}/source/Digitisers/include",
+                "${workspaceFolder}/source/Refitting/include",
+                "${workspaceFolder}/source/Utils/include",
+                "${workspaceFolder}/../MarlinTrk/include/**"],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++", //fix
+            //"compilerPath": "/cvmfs/ilc.desy.de/key4hep/spackages/gcc/11.2.0/x86_64-centos7-gcc4.8.5-opt/7isdlpuoi7cbcsugpa2hzuqhh5zgeapj/bin/gcc",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools",
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        }
+    ],
+    "version": 4
+}
