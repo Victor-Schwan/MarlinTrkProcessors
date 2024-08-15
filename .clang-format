@@ -1,0 +1,17 @@
+Language: Cpp
+BasedOnStyle: llvm
+ColumnLimit: 120
+AllowAllArgumentsOnNextLine: false
+BinPackArguments: true
+PointerAlignment: Left
+BreakBeforeBraces: Attach
+# BraceWrapping:
+# AfterFunction: false
+# AfterClass: false
+# AfterControlStatement: false
+# AfterNamespace: false
+# AfterStruct: false
+# AfterUnion: false
+# BeforeCatch: false
+# BeforeElse: false
+# SplitEmptyFunction: false
