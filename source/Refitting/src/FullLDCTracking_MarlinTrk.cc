@@ -976,8 +976,8 @@ void FullLDCTracking_MarlinTrk::prepareVectors(LCEvent* event) {
 
         const float eps = 1.0e-07;
         // V must be the global z axis
-        if (fabs(1.0 - V.dot(Z)) > eps) {
-          streamlog_out(ERROR) << "FullLDCTracking_MarlinTrk: PIXEL SIT Hit measurment vectors V is not equal to the "
+        if (!(fabs(1.0 - V.dot(Z)) > eps || fabs(-1.0 - V.dot(Z)) > eps)) {
+          streamlog_out(ERROR) << "FullLDCTracking_MarlinTrk: PIXEL SIT Hit measurement vectors V is not equal to the "
                                   "global Z axis. \n\n  exit(1) called from file "
                                << __FILE__ << " and line " << __LINE__ << std::endl;
           exit(1);
