@@ -129,6 +129,8 @@ FullLDCTracking_MarlinTrk::FullLDCTracking_MarlinTrk() : Processor("FullLDCTrack
                            std::string("LDCTracks"));
 
   // steering parameters
+  registerProcessorParameter("VertexDetectorName", "Name of the vertex (barrel) detector in the geometry", m_vtxDetName,
+                             std::string("VXD"));
 
   registerProcessorParameter("D0CutForMerging", "Cut on D0 difference for merging of Si and TPC segments",
                              _d0CutForMerging, float(500.0));
@@ -4734,50 +4736,60 @@ void FullLDCTracking_MarlinTrk::setupGeom(const dd4hep::Detector& theDetector) {
   //-- VXD Parameters--
   _nLayersVTX = 0;
 
-  try {
-    streamlog_out(DEBUG9) << " filling VXD parameters  " << std::endl;
+  // const std::string nameVertexBarrelDetector = "VertexBarrel";
 
-    dd4hep::DetElement vtxDE = theDetector.detector("VXD");
+  try {
+    streamlog_out(DEBUG9) << " filling " << m_vtxDetName << " parameters " << std::endl;
+
+    dd4hep::DetElement vtxDE = theDetector.detector(m_vtxDetName);
     dd4hep::rec::ZPlanarData* vtx = vtxDE.extension<dd4hep::rec::ZPlanarData>();
     _nLayersVTX = vtx->layers.size();
   } catch (std::runtime_error& e) {
-    streamlog_out(DEBUG9) << " ### VXD detector Not Present in Compact File" << std::endl;
+    streamlog_out(ERROR) << " " << m_vtxDetName << " detector Not Present in Compact File" << std::endl;
   }
 
   //-- SIT Parameters--
   _nLayersSIT = 0;
 
-  try {
-    streamlog_out(DEBUG9) << " filling SIT parameters  " << std::endl;
+  const std::string nameInnerTrackerBarrelDetector = "InnerTrackerBarrel";
 
-    dd4hep::DetElement sitDE = theDetector.detector("SIT");
+  try {
+    streamlog_out(DEBUG9) << " filling " << nameInnerTrackerBarrelDetector << " parameters  " << std::endl;
+
+    dd4hep::DetElement sitDE = theDetector.detector(nameInnerTrackerBarrelDetector);
     dd4hep::rec::ZPlanarData* sit = sitDE.extension<dd4hep::rec::ZPlanarData>();
     _nLayersSIT = sit->layers.size();
   } catch (std::runtime_error& e) {
-    streamlog_out(DEBUG9) << " ###  SIT detector Not Present in Compact File " << std::endl;
+    streamlog_out(ERROR) << " " << nameInnerTrackerBarrelDetector << " detector Not Present in Compact File "
+                         << std::endl;
   }
 
   //-- SET Parameters--
   _nLayersSET = 0;
 
-  try {
-    streamlog_out(DEBUG9) << " filling SET parameters  " << std::endl;
+  const std::string nameSiliconExternalTrackDetector = "SET";
 
-    dd4hep::DetElement setDE = theDetector.detector("SET");
+  try {
+    streamlog_out(DEBUG9) << " filling " << nameSiliconExternalTrackDetector << " parameters " << std::endl;
+
+    dd4hep::DetElement setDE = theDetector.detector(nameSiliconExternalTrackDetector);
     dd4hep::rec::ZPlanarData* set = setDE.extension<dd4hep::rec::ZPlanarData>();
     _nLayersSET = set->layers.size();
   } catch (std::runtime_error& e) {
-    streamlog_out(DEBUG9) << " ###  SET detector Not Present in Compact File " << std::endl;
+    streamlog_out(WARNING) << " " << nameSiliconExternalTrackDetector << " detector Not Present in Compact File "
+                           << std::endl;
   }
 
   //-- FTD Parameters--
   _petalBasedFTDWithOverlaps = false;
   _nLayersFTD = 0;
 
-  try {
-    streamlog_out(DEBUG9) << " filling FTD parameters  " << std::endl;
+  const std::string ftdName = "FTD";
 
-    dd4hep::DetElement ftdDE = theDetector.detector("FTD");
+  try {
+    streamlog_out(DEBUG9) << " filling " << ftdName << " parameters " << std::endl;
+
+    dd4hep::DetElement ftdDE = theDetector.detector(ftdName);
     dd4hep::rec::ZDiskPetalsData* ftd = ftdDE.extension<dd4hep::rec::ZDiskPetalsData>();
 
     _nLayersFTD = ftd->layers.size();
@@ -4790,7 +4802,8 @@ void FullLDCTracking_MarlinTrk::setupGeom(const dd4hep::Detector& theDetector) {
 
     // SJA: Here we increase the size of _nLayersFTD as we are treating the
     _nLayersFTD = _zLayerFTD.size();
+
   } catch (std::runtime_error& e) {
-    streamlog_out(DEBUG9) << " ### FTD detector Not Present in Compact File" << std::endl;
+    streamlog_out(WARNING) << " " << ftdName << " detector Not Present in Compact File" << std::endl;
   }
 }
