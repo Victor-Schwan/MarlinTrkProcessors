@@ -4,6 +4,7 @@
 #include "lcio.h"
 #include "marlin/Processor.h"
 #include <string>
+#include <vector>
 
 #include <UTIL/LCRelationNavigator.h>
 
@@ -13,6 +14,10 @@
 
 namespace MarlinTrk {
 class IMarlinTrkSystem;
+}
+
+namespace dd4hep {
+class Detector;
 }
 
 /**  Track Refitter processor for marlin. Refits an input track collection, producing a new collection of tracks
@@ -75,6 +80,14 @@ protected:
   /* helper function to get relations using try catch block */
   std::unique_ptr<lcio::LCRelationNavigator> GetRelations(lcio::LCEvent* evt, std::string RelName);
 
+  /* helper function to look up subdetector IDs by name from the DD4hep geometry.
+   * Each entry is 0 (i.e. "not used") with a warning printed if no subdetector with that name exists.
+   */
+  std::vector<int> GetSubDetIDs(dd4hep::Detector& detector, const std::vector<std::string>& detNames);
+
+  // helper function to identify ILD@FCC-ee detector models
+  bool IsFCCeeModel(dd4hep::Detector& detector) const;
+
   /** Input track collection name for refitting.
    */
   std::string _input_track_col_name{};
@@ -116,6 +129,15 @@ protected:
   std::string _trkSystemName{};
 
   float _bField{};
+
+  /** subdetector IDs contributing to each hit-count category, looked up by name
+   *  from the DD4hep geometry
+   */
+  std::vector<int> _vxdIDs{};
+  std::vector<int> _ftdIDs{};
+  std::vector<int> _sitIDs{};
+  std::vector<int> _tpcIDs{};
+  std::vector<int> _setIDs{};
 };
 
 #endif
